@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Form</title>
+    <meta name="robots" content="noindex, nofollow">
+    <script>
+        async function submitForm(event) {
+            event.preventDefault();
+            const form = document.getElementById('contactForm');
+            
+            // Gather form data into a JSON object
+            const formData = {
+                name: form.name.value,
+                email: form.email.value,
+                organization: form.organization.value,
+                purpose: form.purpose.value,
+                message: form.message.value,
+            };
+    
+            try {
+                const response = await fetch('https://email-ritography.matthewjpellerito.workers.dev', {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData),
+                });
+    
+                const result = await response.json();
+    
+                if (result.success) {
+                    alert('Message sent');
+                    form.reset();
+                } else {
+                    alert('Server error: ' + (result.error || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Server error: ' + error.message);
+            }
+        }
+    </script>
+    
+
+    <style>
+        .container {
+            width: 100%;
+            height: auto;
+            display: flex;
+            background-color: #fff;
+            flex-direction: column;
+            justify-content: center;
+
+            }
+            
+        .form-container {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin-left: auto;
+margin-right: auto;
+width: 100%;
+height: 50%;
+background-color: #012035;
+border-radius: 30px;
+padding-bottom: 3%;
+        }
+        h1 {
+            font-family: agency fb, arial;
+            color: #fff;
+            font-size: 4rem;
+        
+        }
+
+        html {
+            font-family: agency fb;
+            color: #fff;
+        }
+
+        label {
+            font-size: 1.5rem;
+            color: #fff;
+            text-align: center;
+        
+        }
+
+        .form-container form {
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+           
+        }
+
+        input {
+            width: 50%;
+            height: 30px;
+            border-radius: 30px;
+            margin-bottom: 1%;
+            font-family: agency fb;
+            font-size: 1.5rem;
+            padding-left: 1%;
+            padding-right: 1%;
+        }
+
+
+select {
+    width: 50%;
+    height: 35px;
+    border-radius: 30px;
+    margin-bottom: 1%;
+    text-align: center;
+    font-family: agency fb;
+    font-size: 1.5rem;
+}
+
+option {
+    background-color: #012035;
+    color: #fff;
+    font-family: agency fb;
+    font-size: 1.5rem;
+}
+
+input[type="submit"] {
+    width: 200px;
+    height: 30px;
+    border-radius: 30px;
+    margin-bottom: 1%;
+   
+}
+
+textarea {
+    width: 50%;
+    height: 100px;
+    border-radius: 30px;
+    margin-bottom: 1%;
+    font-family: agency fb;
+    font-size: 1.5rem;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: 3px solid yellow;
+}
+
+input[type="submit"] {
+    height: 40px;
+    cursor: pointer;
+
+}
+
+input[type="submit"]:hover {
+    background-color: #012035;
+    color: #fff;
+    outline: 3px solid white;
+}
+
+@media (max-width: 700px) {
+    input, textarea, select {
+        width: 90%;
+    }
+}
+@media (min-width:701px) and (max-width: 1200px) {
+    input, textarea, select {
+        width: 70%;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-container">
+    <h1>Contact</h1>
+    <form id="contactForm" onsubmit="submitForm(event)">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="organization">Organization (optional):</label><br>
+        <input type="text" id="organization" name="organization"><br><br>
+
+        <label for="purpose">Purpose:</label><br>
+        <select id="purpose" name="purpose" required>
+            <option value="">--Select an option--</option>
+            <option value="press inquiry">Press Inquiry</option>
+            <option value="business inquiry">Business Inquiry</option>
+            <option value="speaking opportunity">Speaking Opportunity</option>
+            <option value="other">Other</option>
+        </select><br><br>
+
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" required></textarea><br><br>
+
+        <input type="submit" value="Send Message">
+    </form>
+</div>
+</div>
+
+</body>
+</html>
